@@ -3,27 +3,32 @@ def application(environ, start_response):
     headers = [('Content-type', 'text/html')]
     start_response(status, headers)
 
-    if environ['PATH_INFO'] == '/form_handler':
-        if environ['REQUEST_METHOD'] == 'POST':
-            # Leer los datos del formulario POST desde `environ['wsgi.input']`
-            post_data = environ['wsgi.input'].read().decode('utf-8')
+    if environ['PATH_INFO'] == '/formulario_smartphone':
+        # Cargar las respuestas de formulario_smartphone.html y enviar como respuesta
+        with open('formulario_smartphone.html', 'r') as file:
+            response = file.read()
+            
+    if environ['PATH_INFO'] == '/formulario_tv':
+        # Cargar las respuestas de formulario_smartphone.html y enviar como respuesta
+        with open('formulario_tv.html', 'r') as file:
+            response = file.read()
+            
+    elif environ['PATH_INFO'] == '/eleccion_equipo':
+        # Cargar las respuestas de eleccion_equipo.html y enviar como respuesta
+        with open('eleccion_equipo.html', 'r') as file:
+            response = file.read()
+            
+    elif environ['PATH_INFO'] == '/index':
+        # Cargar las respuestas de index.html y enviar como respuesta
+        with open('index.html', 'r') as file:
+            response = file.read()
+            
+    elif environ['PATH_INFO'] == '/ordenes':
+        # Cargar las respuestas de ordenes.html y enviar como respuesta
+        with open('ordenes.html', 'r') as file:
+            response = file.read()
+    else:
+        response = 'ERROR'
 
-            # Aquí puedes procesar los datos del formulario como sea necesario
-            # Por ejemplo, puedes dividir los datos en pares clave-valor
-            form_data = {item.split('=')[0]: item.split('=')[1] for item in post_data.split('&')}
+    return [response.encode('utf-8')]
 
-            nombre = form_data.get('nombre')
-            telefono = form_data.get('telefono')
-            equipo = form_data.get('equipo')
-            falla = form_data.get('falla')
-
-            # Enviar el contenido de formulario.html como respuesta
-            with open('templates/formulario.html', 'r') as file:
-                response = file.read()
-
-            return [response.encode('utf-8')]
-    
-    # Resto de la lógica de la aplicación
-
-    
-    # Resto de la lógica de la aplicación
